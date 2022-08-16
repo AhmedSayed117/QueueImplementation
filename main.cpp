@@ -22,14 +22,42 @@ public:
 
     void enQueue(int data)
     {
-        Node* temp = new Node(data);
+        bool enter= false;
+        Node* target = new Node(data);
 
         if (rear == nullptr) {
-            front = rear = temp;
+            front = rear = target;
             return;
         }
-        rear->next = temp;
-        rear = temp;
+        Node* prev = front;
+        Node* current = front;
+
+        while (prev->data > target->data){//p=5 t=4
+            target->next = prev;
+            front=target;
+            prev=target;
+        }
+
+        while (current->data < target->data){//c=3 t=4
+            prev = current;
+            current = prev->next;
+            enter= true;
+            if (!current)goto endpoint;
+        }
+        endpoint:
+        if (enter)
+        {
+            prev->next=target;
+            target->next=current;
+        }
+
+        Node* temp = front;
+        rear = front;
+        while (temp){
+            temp=temp->next;
+            if (!temp)return;
+            rear=temp;
+        }
     }
 
     void deQueue()
@@ -43,6 +71,15 @@ public:
         if (front == nullptr)
             rear = nullptr;
         delete (temp);
+    }
+
+    void display(){
+        Node* temp = front;
+        while (temp){
+            cout<<temp->data<<"->";
+            temp=temp->next;
+        }
+        cout<<endl;
     }
 
     int getFront(){
@@ -62,17 +99,21 @@ public:
 int main()
 {
     Queue q;
-    q.enQueue(10);
-    q.enQueue(20);
+    q.enQueue(7);
+    q.enQueue(8);
+    q.enQueue(9);
+    q.enQueue(5);
+    q.enQueue(3);
+    q.enQueue(4);
+    q.enQueue(1);
+    q.enQueue(2);
+    q.enQueue(90);
+    q.enQueue(80);
+    q.display();
+    cout<<q.getFront()<<endl;
+    cout<<q.getRear()<<endl;
     q.deQueue();
-    q.deQueue();
-    q.enQueue(30);
-    q.enQueue(40);
-    q.enQueue(50);
-    q.deQueue();
-    cout << "Queue Front : " << q.getFront()<<endl;
-    cout << "Queue Rear : " << q.getRear();
+    q.display();
+    cout<<q.getFront()<<endl;
+    cout<<q.getRear()<<endl;
 }
-//Output:
-//Queue Front : 40
-//Queue Rear : 50
