@@ -11,10 +11,11 @@ struct Node {
         next = nullptr;
     }
 };
+
 template<class t>
 class Queue
 {
-    Node<t> *front, *rear;
+    Node<t> *front, *rear;int size=0;
 public:
     Queue()
     {
@@ -23,6 +24,7 @@ public:
 
     void enQueue(t data)
     {
+        size++;
         bool enter= false;
         Node<t>* target = new Node<t>(data);
 
@@ -33,10 +35,11 @@ public:
         Node<t>* prev = front;
         Node<t>* current = front;
 
-        while (prev->data > target->data){//p=5 t=4
+        while (prev->data >= target->data){//p=5 t=4
             target->next = prev;
             front=target;
             prev=target;
+            if(prev->data==target->data)return;
         }
 
         while (current->data < target->data){//c=3 t=4
@@ -63,6 +66,7 @@ public:
 
     void deQueue()
     {
+        size--;
         if (front == nullptr)
             return;
 
@@ -92,6 +96,10 @@ public:
         return rear->data;
     }
 
+    int getSize(){
+        return size;
+    }
+
     ~Queue(){
         delete front;
         delete rear;
@@ -100,11 +108,22 @@ public:
 
 int main()
 {
-    Queue<string> q;
-    q.enQueue("Ahmed");
-    q.enQueue("mohaned");
-    q.enQueue("mahmoud");
+    Queue<int> q;
+    q.enQueue(1);
+    q.enQueue(2);
+    q.enQueue(3);
+    q.enQueue(10);
+    q.enQueue(8);
+    q.enQueue(5);
+    q.enQueue(1);
+    q.enQueue(2);
     q.display();
     cout<<q.getFront()<<endl;
     cout<<q.getRear()<<endl;
+    cout<<q.getSize()<<endl;
+    q.deQueue();
+    q.display();
+    cout<<q.getFront()<<endl;
+    cout<<q.getRear()<<endl;
+    cout<<q.getSize()<<endl;
 }
