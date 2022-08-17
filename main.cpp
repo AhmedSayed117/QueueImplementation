@@ -1,36 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+template<class t>
 struct Node {
-    int data;
+    t data;
     Node* next;
-    Node(int d)
+    Node(t d)
     {
         data = d;
         next = nullptr;
     }
 };
-
+template<class t>
 class Queue
 {
-    Node *front, *rear;
+    Node<t> *front, *rear;
 public:
     Queue()
     {
         front = rear = nullptr;
     }
 
-    void enQueue(int data)
+    void enQueue(t data)
     {
         bool enter= false;
-        Node* target = new Node(data);
+        Node<t>* target = new Node<t>(data);
 
         if (rear == nullptr) {
             front = rear = target;
             return;
         }
-        Node* prev = front;
-        Node* current = front;
+        Node<t>* prev = front;
+        Node<t>* current = front;
 
         while (prev->data > target->data){//p=5 t=4
             target->next = prev;
@@ -51,7 +52,7 @@ public:
             target->next=current;
         }
 
-        Node* temp = front;
+        Node<t>* temp = front;
         rear = front;
         while (temp){
             temp=temp->next;
@@ -65,7 +66,7 @@ public:
         if (front == nullptr)
             return;
 
-        Node* temp = front;
+        Node<t>* temp = front;
         front = front->next;
 
         if (front == nullptr)
@@ -74,19 +75,20 @@ public:
     }
 
     void display(){
-        Node* temp = front;
+        Node<t>* temp = front;
         while (temp){
-            cout<<temp->data<<"->";
+            cout<<temp->data;
+            (temp->next)?cout<<"->":cout<<"";
             temp=temp->next;
         }
         cout<<endl;
     }
 
-    int getFront(){
+    t getFront(){
         return front->data;
     }
 
-    int getRear(){
+    t getRear(){
         return rear->data;
     }
 
@@ -98,21 +100,10 @@ public:
 
 int main()
 {
-    Queue q;
-    q.enQueue(7);
-    q.enQueue(8);
-    q.enQueue(9);
-    q.enQueue(5);
-    q.enQueue(3);
-    q.enQueue(4);
-    q.enQueue(1);
-    q.enQueue(2);
-    q.enQueue(90);
-    q.enQueue(80);
-    q.display();
-    cout<<q.getFront()<<endl;
-    cout<<q.getRear()<<endl;
-    q.deQueue();
+    Queue<string> q;
+    q.enQueue("Ahmed");
+    q.enQueue("mohaned");
+    q.enQueue("mahmoud");
     q.display();
     cout<<q.getFront()<<endl;
     cout<<q.getRear()<<endl;
